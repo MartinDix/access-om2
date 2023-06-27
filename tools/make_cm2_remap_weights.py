@@ -174,7 +174,7 @@ def main():
     parser.add_argument('--prefix',
                         default='remap',
                         help='Filename prefix for generated weights files')
-    parser.add_argument('--maskfile', required=True,
+    parser.add_argument('--maskfile', default=None,
                         help='OASIS maskfile with UM masks')
     parser.add_argument('--norm_type', default='dstarea',
                         choices = ['dstarea', 'fracarea'],
@@ -202,6 +202,11 @@ def main():
     grid_file, mask_file = ocean_grid_file_dict[args.ocean]
     ocean_grid = MomGrid.fromfile(grid_file, mask_file=mask_file)
 
+    # maskfile must be defined if required
+    if (args.src == 'atm' and not args.unmasked_src) or \
+       (args.src == 'ocn' and not args.unmasked_dest):
+        if not args.maskfile:
+            raise Exception("maskfile argument required in this configuration")
     atm_grid = UMGrid(args.atm, args.maskfile)
     if args.src == 'atm':
         src_grid = atm_grid
