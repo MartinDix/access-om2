@@ -12,12 +12,14 @@ import numpy as np
 import tempfile
 import subprocess as sp
 import multiprocessing as mp
+import re
 
 my_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(my_dir, './esmgrids'))
 
-from esmgrids.mom_grid import MomGrid  # noqa
-from esmgrids.um_eg_grid import UMGrid  # noqa
+from esmgrids.mom_grid import MomGrid
+from esmgrids.um_eg_grid import UMGrid_eg
+from esmgrids.um_nd_grid import UMGrid_nd
 
 
 """
@@ -207,7 +209,14 @@ def main():
        (args.src == 'ocn' and not args.unmasked_dest):
         if not args.maskfile:
             raise Exception("maskfile argument required in this configuration")
-    atm_grid = UMGrid(args.atm, args.maskfile)
+    reg_nd = re.compile('n(\d+)_([tuv])')
+    reg_eg = re.compile('n(\d+)e_([tuv])')
+    if reg_nd.search(args.atm):
+        atm_grid = UMGrid_nd(args.atm, args.maskfile)
+    elif reg_eg.search(args.atm):
+        atm_grid = UMGrid_eg(args.atm, args.maskfile)
+    else:
+        raise Exception('Error parsing UM grid string')
     if args.src == 'atm':
         src_grid = atm_grid
         dest_grid = ocean_grid
