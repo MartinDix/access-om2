@@ -26,25 +26,25 @@ COMMON_ARGS="--npes 8 --ocean MOM1 \
       --ignore_unmapped --prefix remap"
 
 time ./make_access_cm_remap_weights.py $COMMON_ARGS \
-      --atm n96e_t --src atm  --method=bilinear --norm_type=dstarea
+      --atm n96_t --src atm  --method=bilinear --norm_type=dstarea
 
 time ./make_access_cm_remap_weights.py $COMMON_ARGS \
-      --atm n96e_t --src atm --method=conserve --norm_type dstarea
+      --atm n96_t --src atm --method=conserve --norm_type dstarea
 
 time ./make_access_cm_remap_weights.py $COMMON_ARGS \
-     --atm n96e_t --src ocn --method=conserve --norm_type fracarea
+     --atm n96_t --src ocn --method=conserve --norm_type fracarea
 
 time ./make_access_cm_remap_weights.py $COMMON_ARGS \
-     --atm n96e_u --src ocn --method=conserve --norm_type fracarea
+     --atm n96_u --src ocn --method=conserve --norm_type fracarea
 
 time ./make_access_cm_remap_weights.py $COMMON_ARGS \
-     --atm n96e_v  --src ocn --method=conserve --norm_type fracarea
+     --atm n96_v  --src ocn --method=conserve --norm_type fracarea
 
 time ./make_access_cm_remap_weights.py $COMMON_ARGS \
-     --atm n96e_u --src atm --method=patch --norm_type dstarea
+     --atm n96_u --src atm --method=patch --norm_type dstarea
 
 time ./make_access_cm_remap_weights.py $COMMON_ARGS \
-     --atm n96e_v  --src atm --method=patch --norm_type dstarea
+     --atm n96_v  --src atm --method=patch --norm_type dstarea
 
 
 # time ./make_cm2_remap_weights.py --npes 8 --ocean MOM1 \
